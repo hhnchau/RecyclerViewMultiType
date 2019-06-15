@@ -27,6 +27,13 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter<RecyclerView.View
     MediaPlayer mPlayer;
     private boolean fabStateVolume = false;
 
+    private OnLickListeners onClick;
+
+    public void setOnClickListener(OnLickListeners onLickListeners) {
+        this.onClick = onLickListeners;
+    }
+
+
 //    public static class TextTypeViewHolder extends RecyclerView.ViewHolder {
 //
 //
@@ -43,21 +50,21 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter<RecyclerView.View
 //
 //    }
 
-    public static class ImageTypeViewHolder extends RecyclerView.ViewHolder {
-
-
-        TextView txtType;
-        ImageView image;
-
-        public ImageTypeViewHolder(View itemView) {
-            super(itemView);
-
-            this.txtType = (TextView) itemView.findViewById(R.id.type);
-            this.image = (ImageView) itemView.findViewById(R.id.background);
-
-        }
-
-    }
+//    public static class ImageTypeViewHolder extends RecyclerView.ViewHolder {
+//
+//
+//        TextView txtType;
+//        ImageView image;
+//
+//        public ImageTypeViewHolder(View itemView) {
+//            super(itemView);
+//
+//            this.txtType = (TextView) itemView.findViewById(R.id.type);
+//            this.image = (ImageView) itemView.findViewById(R.id.background);
+//
+//        }
+//
+//    }
 
     public static class AudioTypeViewHolder extends RecyclerView.ViewHolder {
 
@@ -122,7 +129,6 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int listPosition) {
-
         final Model object = dataSet.get(listPosition);
         if (object != null) {
             switch (object.type) {
@@ -138,8 +144,13 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                     break;
                 case Model.IMAGE_TYPE:
-                    ((ImageTypeViewHolder) holder).txtType.setText(object.text);
-                    ((ImageTypeViewHolder) holder).image.setImageResource(object.data);
+                    ((ImageTypeViewHolder) holder).bind(object, new OnLickListeners() {
+                        @Override
+                        public void onListener() {
+                            if (onClick != null)
+                                onClick.onListener();
+                        }
+                    });
                     break;
                 case Model.AUDIO_TYPE:
 

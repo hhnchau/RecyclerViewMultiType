@@ -50,6 +50,12 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(adapter);
+        adapter.setOnClickListener(new OnLickListeners() {
+            @Override
+            public void onListener() {
+                Toast.makeText(MainActivity.this, "helllo", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
